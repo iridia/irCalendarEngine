@@ -58,11 +58,11 @@ window.iridia = (window && window.iridia || {})
 
 	iridia.calendarEngineCalendarEvent = new JS.Class({
 	
-			initialize: function(event) {
-	
-				this.event = event;
-	
-			}
+		initialize: function(event) {
+
+			this.event = event;
+
+		}
 	
 	});
 
@@ -192,7 +192,7 @@ window.iridia = (window && window.iridia || {})
 				}
 				
 			});
-			
+					
 			$.getJSON(iridia.calendarEngineBaseURLWithIdentifier(this.options.calendarID), finalQueryHash, this.processData);
 			
 		},
