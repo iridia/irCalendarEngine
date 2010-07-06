@@ -26,6 +26,16 @@
 		return "http://www.google.com/calendar/feeds/" + String(inCalendarIdentifier) + "@group.calendar.google.com/" + inPrivacyLevel + "/" + inDetailLevel + "?alt=json-in-script&callback=?";
 	
 	}
+	
+	
+	
+	
+	
+	iridia.calendarEngineGetSubscriptionURLWithIdentifier = function (inCalendarIdentifier) {
+	
+		return "http://www.google.com/calendar/render?cid=" + String(inCalendarIdentifier) + "@group.calendar.google.com"
+		
+	}
 
 
 
