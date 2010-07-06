@@ -227,13 +227,13 @@
 				
 				beforeSend: function (xOptions) {
 				
-					if (!xOptions.context.engine.delegate.calendarEngineShouldSendRequest()) {
+					if (!xOptions.context.engine.delegate.calendarEngineShouldSendRequest.call(xOptions.context.engine.delegate)) {
 					
 						xOptions.abort();
 					
 					} else {
 					
-						xOptions.context.engine.delegate.calendarEngineDidStartLoadingEvents(xOptions.context.engine);
+						xOptions.context.engine.delegate.calendarEngineDidStartLoadingEvents.call(xOptions.context.engine.delegate, xOptions.context.engine);
 					
 					}
 				
@@ -282,7 +282,7 @@
 				
 				case "timeout":
 				
-					if (!xOptions.context.engine.delegate.calendarEngineShouldRetry(xOptions.context.engine)) return;
+					if (!xOptions.context.engine.delegate.calendarEngineShouldRetry.call(xOptions.context.engine.delegate, xOptions.context.engine)) return;
 					
 					$.jsonp(xOptions);
 					
@@ -335,7 +335,7 @@
 					
 				});
 				
-				this.delegate.calendarEngineDidReceiveEvents(this, regulatedEventObjects);
+				this.delegate.calendarEngineDidReceiveEvents.call(this.delegate, this, regulatedEventObjects);
 				
 			}
 		
