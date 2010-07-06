@@ -5,7 +5,7 @@
 
 
 
-window.iridia = (window && window.iridia || {})
+	window.iridia = (window && window.iridia || {});
 
 
 
@@ -46,7 +46,7 @@ window.iridia = (window && window.iridia || {})
 		
 		"calendarEngineDidStartLoadingEvents",
 		"calendarEngineDidReceiveEvents",
-		"calendarEngineShouldRetry"
+		"calendarEngineShouldRetry"			//	Called on timeout
 	
 	]);
 
@@ -126,7 +126,7 @@ window.iridia = (window && window.iridia || {})
 	
 		include: JS.Observable,
 	
-		initialize: function(inOptions, inDelegate) {
+		initialize: function(inOptions, inDelegate, inContext) {
 		
 			mono.groupStart("Initializing calendar engine.");
 			mono.log("Options: ", inOptions);
@@ -141,7 +141,8 @@ window.iridia = (window && window.iridia || {})
 				"calendarID": undefined,
 				"methodImmediatelyExecutes": true,
 				"methodName": "",
-				"methodArguments": {}
+				"methodArguments": {},
+				"context": inContext
 			
 			}, inOptions);
 					
@@ -178,7 +179,7 @@ window.iridia = (window && window.iridia || {})
 		},
 	
 	
-		
+	
 	
 	
 	//	Engine.
@@ -274,6 +275,11 @@ window.iridia = (window && window.iridia || {})
 			switch (textStatus) {
 			
 				case "error":
+				
+					mono.error("Error occurred.");
+
+					break;
+				
 				case "timeout":
 				
 					if (!xOptions.context.engine.delegate.calendarEngineShouldRetry(xOptions.context.engine)) return;
