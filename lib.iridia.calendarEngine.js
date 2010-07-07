@@ -324,26 +324,55 @@
 		processData: {
 		
 			"fetchEvents": function(inData) {
-				
+
 				var eventEntries = eval("inData.feed.entry");
 				if (eventEntries === undefined) return;
 				
-				var regulatedEventObjects = $.map(eventEntries, function(eventObject) {
+				var regulatedEventObjects = [];
 				
-					var eventTime = eventObject['gd$when'] && eventObject['gd$when'][0] || {};
-					var eventStartTime = eventTime && eventTime.startTime || "";
-					var eventStartDate = Date.fromISO8601(eventStartTime);
+				$.each(eventEntries, function(eventIndex, eventObject) {
 				
-					return {
+					$.each(eventObject['gd$when'], function(eventRecurrenceIndex, eventRecurrenceTimespan) {
 					
-						title: eventObject.title && eventObject.title['$t'] || "",
-						content: eventObject.content && eventObject.content['$t'] || "",
-						startDate: eventStartDate,
-						link: eventObject.link
+						var eventTime = eventRecurrenceTimespan;
 					
-					};
+						var eventStartTime = eventTime && eventTime.startTime || "";
+						var eventEndTime = eventTime && eventTime.endTime || "";
+						
+						var eventStartDate = Date.fromISO8601(eventStartTime);
+						if (eventStartDate == undefined) {
+						
+							eventStartDate = Date.fromISO8601(eventStartTime, true);
+							
+						}
+						
+						var eventEndDate = Date.fromISO8601(eventEndTime);
+						if (eventEndDate == undefined) {
+						
+							eventEndDate = Date.fromISO8601(eventEndTime, true);
+							
+						}
 					
-				}).sort(function(firstObject, secondObject) {
+						regulatedEventObjects.push({
+
+							title: eventObject.title && eventObject.title['$t'] || "",
+	
+							content: eventObject.content && eventObject.content['$t'] || "",
+	
+							startDate: eventStartDate,
+							endDate: eventEndDate,
+	
+							link: eventObject.link,
+							
+							private: ((eventObject["gCal$privateCopy"] && eventObject["gCal$privateCopy"]["value"] || "false") == "true")
+						
+						});
+						
+					});
+					
+				});
+				
+				regulatedEventObjects.sort(function(firstObject, secondObject) {
 				
 				//	< 0: firstObject comes first
 				//	0: ordered same
@@ -354,6 +383,8 @@
 				});
 				
 				this.delegate.calendarEngineDidReceiveEvents.call(this.delegate, this, regulatedEventObjects);
+				
+				mono.groupEnd();
 				
 			}
 		
