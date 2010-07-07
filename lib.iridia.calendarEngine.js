@@ -56,7 +56,9 @@
 		
 		"calendarEngineDidStartLoadingEvents",
 		"calendarEngineDidReceiveEvents",
-		"calendarEngineShouldRetry"			//	Called on timeout
+		"calendarEngineShouldRetry",			//	Called on timeout
+		
+		"calendarEngineEndpointUnavailable"
 	
 	]);
 
@@ -285,16 +287,22 @@
 			switch (textStatus) {
 			
 				case "error":
-				
-					mono.error("Error occurred.");
+									
+					xOptions.context.engine.delegate.calendarEngineEndpointUnavailable.call(xOptions.context.engine.delegate, xOptions.context.engine);
 
 					break;
 				
 				case "timeout":
 				
-					if (!xOptions.context.engine.delegate.calendarEngineShouldRetry.call(xOptions.context.engine.delegate, xOptions.context.engine)) return;
+					if (!xOptions.context.engine.delegate.calendarEngineShouldRetry.call(xOptions.context.engine.delegate, xOptions.context.engine)) {
+
+						xOptions.context.engine.delegate.calendarEngineEndpointUnavailable.call(xOptions.context.engine.delegate, xOptions.context.engine);
 					
-					$.jsonp(xOptions);
+					} else {
+					
+						$.jsonp(xOptions);
+					
+					}
 					
 					break;
 
