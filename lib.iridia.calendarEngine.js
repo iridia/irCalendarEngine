@@ -339,10 +339,15 @@
 						var eventStartTime = eventTime && eventTime.startTime || "";
 						var eventEndTime = eventTime && eventTime.endTime || "";
 						
+						var eventTakesAllDay = false;
+						
 						var eventStartDate = Date.fromISO8601(eventStartTime);
+						
 						if (eventStartDate == undefined) {
 						
 							eventStartDate = Date.fromISO8601(eventStartTime, true);
+							
+							eventTakesAllDay = eventTakesAllDay || true;
 							
 						}
 						
@@ -351,8 +356,10 @@
 						
 							eventEndDate = Date.fromISO8601(eventEndTime, true);
 							
+							eventTakesAllDay = eventTakesAllDay || true;
+							
 						}
-					
+											
 						regulatedEventObjects.push({
 
 							title: eventObject.title && eventObject.title['$t'] || "",
@@ -361,6 +368,8 @@
 	
 							startDate: eventStartDate,
 							endDate: eventEndDate,
+							
+							takesAllDay: eventTakesAllDay,
 	
 							link: eventObject.link,
 							
