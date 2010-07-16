@@ -1,4 +1,4 @@
-//	lib.iridia.calendarEngine.js
+//	lib.irCalendarEngine.js
 //	Evadne Wu at Iridia, 2010
 
 
