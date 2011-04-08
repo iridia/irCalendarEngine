@@ -23,7 +23,7 @@
 		inPrivacyLevel = inPrivacyLevel || "public";
 		inDetailLevel = inDetailLevel || "full";
 		
-		return "http://www.google.com/calendar/feeds/" + String(inCalendarIdentifier) + "@group.calendar.google.com/" + inPrivacyLevel + "/" + inDetailLevel + "?alt=json-in-script&callback=?";
+		return "http://www.google.com/calendar/feeds/" + String(inCalendarIdentifier) + "/" + inPrivacyLevel + "/" + inDetailLevel + "?alt=json-in-script&callback=?";
 	
 	}
 	
